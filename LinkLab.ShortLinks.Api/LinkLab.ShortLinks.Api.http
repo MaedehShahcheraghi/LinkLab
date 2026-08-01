@@ -1,0 +1,6 @@
+@LinkLab.ShortLinks.Api_HostAddress = http://localhost:5001
+
+GET {{LinkLab.ShortLinks.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
