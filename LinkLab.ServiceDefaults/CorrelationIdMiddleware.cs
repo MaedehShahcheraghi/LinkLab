@@ -3,25 +3,14 @@ using Microsoft.Extensions.Logging;
 
 namespace LinkLab.ServiceDefaults;
 
-public sealed class CorrelationIdMiddleware
+public sealed class CorrelationIdMiddleware(
+    RequestDelegate next,
+    ILogger<CorrelationIdMiddleware> logger)
 {
     public const string HeaderName =
         "X-Correlation-ID";
 
     private const int MaximumCorrelationIdLength = 128;
-
-    private readonly ILogger<
-        CorrelationIdMiddleware> _logger;
-
-    private readonly RequestDelegate _next;
-
-    public CorrelationIdMiddleware(
-        RequestDelegate next,
-        ILogger<CorrelationIdMiddleware> logger)
-    {
-        _next = next;
-        _logger = logger;
-    }
 
     public Task InvokeAsync(HttpContext httpContext)
     {
@@ -39,12 +28,12 @@ public sealed class CorrelationIdMiddleware
         });
 
 
-        using var scope = _logger.BeginScope(
+        using var scope = logger.BeginScope(
             new Dictionary<string, object>
             {
                 ["CorrelationId"] = correlationId
             });
-        return _next(httpContext);
+        return next(httpContext);
     }
 
     private static string GetOrCreateCorrelationId(
