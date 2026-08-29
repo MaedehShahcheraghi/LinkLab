@@ -1,27 +1,69 @@
+using LinkLab.BuildingBlocks.Idempotency;
+using LinkLab.Identity.Api.Data;
+using LinkLab.Identity.Api.Models;
 using LinkLab.ServiceDefaults;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.AddServiceDefaults();
+
+var connectionString = builder.Configuration.GetConnectionString("IdentityDb")
+    ?? throw new InvalidOperationException(
+        "Connection string 'IdentityDb' is missing from configuration.");
+
+builder.Services.AddDbContext<IdentityDbContext>(options =>
+{
+    options.UseSqlServer(connectionString, sql =>
+    {
+        sql.EnableRetryOnFailure(
+            maxRetryCount: 3,
+            maxRetryDelay: TimeSpan.FromSeconds(5),
+            errorNumbersToAdd: null);
+    });
+});
+
+builder.Services.AddDbContextFactory<IdentityDbContext>(options =>
+{
+    options.UseSqlServer(connectionString, sql =>
+    {
+        sql.EnableRetryOnFailure(
+            maxRetryCount: 3,
+            maxRetryDelay: TimeSpan.FromSeconds(5),
+            errorNumbersToAdd: null);
+    });
+}, ServiceLifetime.Scoped);
+
+// ── ASP.NET Identity ────────────────────────────────────────────
+builder.Services
+    .AddIdentityCore<ApplicationUser>(options =>
+    {
+        options.Password.RequiredLength = 8;
+        options.Password.RequireNonAlphanumeric = false;
+        options.User.RequireUniqueEmail = true;
+    })
+    .AddRoles<ApplicationRole>()
+    .AddEntityFrameworkStores<IdentityDbContext>();
+
+builder.AddLinkLabIdempotency<IdentityDbContext>(builder.Configuration);
 
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-builder.AddServiceDefaults();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment()) app.MapOpenApi();
+if (app.Environment.IsDevelopment())
+    app.MapOpenApi();
 
 app.UseHttpsRedirection();
-
 
 app.MapServiceDefaults();
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapControllers();
 
+app.UseIdempotencyFingerprint();
+
+app.MapControllers();
 
 app.Run();

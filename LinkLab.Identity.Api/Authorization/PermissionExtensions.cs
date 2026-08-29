@@ -33,4 +33,10 @@ public static class PermissionExtensions
     {
         return current & ~permission;
     }
+
+    public static bool ContainsOnlyDefinedPermissions(
+        this Permission permissions)
+    {
+        return (permissions & ~Permission.All) == Permission.None;
+    }
 }
