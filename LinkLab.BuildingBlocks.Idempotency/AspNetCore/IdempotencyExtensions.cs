@@ -38,6 +38,8 @@ public static class IdempotencyExtensions
 
         builder.Services.TryAddSingleton<RequestHasher>();
         builder.Services.TryAddSingleton(TimeProvider.System);
+        
+        builder.Services.TryAddTransient<IdempotencyActionFilter>();
 
         builder.Services.AddScoped<IIdempotencyStore,
             EfCoreIdempotencyStore<TContext>>();
