@@ -1,4 +1,4 @@
-﻿namespace LinkLab.Identity.Api.Authorization;
+namespace LinkLab.BuildingBlocks.Core.Authorization;
 
 [Flags]
 public enum Permission : long
@@ -19,18 +19,5 @@ public enum Permission : long
     UsersManage = 1L << 8,
 
     RolesRead = 1L << 9,
-    RolesManage = 1L << 10,
-
-    All =
-        ProfileRead |
-        ProfileUpdate |
-        ShortLinksReadOwn |
-        ShortLinksCreate |
-        ShortLinksUpdateOwn |
-        ShortLinksDeleteOwn |
-        AnalyticsReadOwn |
-        UsersRead |
-        UsersManage |
-        RolesRead |
-        RolesManage
+    RolesManage = 1L << 10
 }

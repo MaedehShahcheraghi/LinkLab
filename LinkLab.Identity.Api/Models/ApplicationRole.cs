@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using LinkLab.Identity.Api.Authorization;
+using System.ComponentModel.DataAnnotations.Schema;
+using LinkLab.BuildingBlocks.Core.Authorization;
 using Microsoft.AspNetCore.Identity;
 
 namespace LinkLab.Identity.Api.Models;

@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkLab.ServiceDefaults", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkLab.Idempotency", "LinkLab.BuildingBlocks.Idempotency\LinkLab.Idempotency.csproj", "{C5ED0EC5-BC5C-419F-8528-E0FC8D25DF06}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkLab.BuildingBlocks.Core", "LinkLab.BuildingBlocks.Core\LinkLab.BuildingBlocks.Core.csproj", "{C13ED05C-F7D0-4C33-9D1C-91722DAEE20F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{C5ED0EC5-BC5C-419F-8528-E0FC8D25DF06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5ED0EC5-BC5C-419F-8528-E0FC8D25DF06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5ED0EC5-BC5C-419F-8528-E0FC8D25DF06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C13ED05C-F7D0-4C33-9D1C-91722DAEE20F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C13ED05C-F7D0-4C33-9D1C-91722DAEE20F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C13ED05C-F7D0-4C33-9D1C-91722DAEE20F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C13ED05C-F7D0-4C33-9D1C-91722DAEE20F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,5 +82,6 @@ Global
 		{F5811E65-28AA-4789-AAE2-46B4949C53E6} = {2FF4AA62-1ECE-4123-A80D-929ACEA571FE}
 		{89448522-9ECC-4CDD-96D4-31080976DF30} = {F5811E65-28AA-4789-AAE2-46B4949C53E6}
 		{C5ED0EC5-BC5C-419F-8528-E0FC8D25DF06} = {F5811E65-28AA-4789-AAE2-46B4949C53E6}
+		{C13ED05C-F7D0-4C33-9D1C-91722DAEE20F} = {F5811E65-28AA-4789-AAE2-46B4949C53E6}
 	EndGlobalSection
 EndGlobal

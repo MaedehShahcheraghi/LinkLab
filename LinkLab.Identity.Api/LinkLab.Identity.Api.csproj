@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LinkLab.BuildingBlocks.Core\LinkLab.BuildingBlocks.Core.csproj" />
     <ProjectReference Include="..\LinkLab.BuildingBlocks.Idempotency\LinkLab.Idempotency.csproj" />
     <ProjectReference Include="..\LinkLab.ServiceDefaults\LinkLab.ServiceDefaults.csproj" />
   </ItemGroup>
