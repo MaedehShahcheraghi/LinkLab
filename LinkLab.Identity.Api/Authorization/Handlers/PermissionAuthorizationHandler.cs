@@ -22,8 +22,7 @@ public sealed class PermissionAuthorizationHandler
 
         var userPermissions = (Permission)mask;
 
-        // Since Permission is flags, we check if it has the required permission
-        if ((userPermissions & requirement.Permission) == requirement.Permission)
+        if (userPermissions.HasAll(requirement.Permission))
         {
             context.Succeed(requirement);
         }

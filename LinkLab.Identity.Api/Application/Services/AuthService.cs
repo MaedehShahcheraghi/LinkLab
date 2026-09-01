@@ -117,7 +117,7 @@ public sealed class AuthService(
 
         if (rotationResult.IsFailure)
         {
-            await unitOfWork.SaveChangesAsync(cancellationToken); // Save potential family revokes
+            await unitOfWork.SaveChangesAsync(cancellationToken); 
             return rotationResult.Error;
         }
 
