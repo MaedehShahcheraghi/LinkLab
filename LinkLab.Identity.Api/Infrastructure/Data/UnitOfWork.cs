@@ -28,7 +28,6 @@ public sealed class UnitOfWork(IdentityDbContext dbContext) : IUnitOfWork
         try
         {
             await dbContext.SaveChangesAsync(cancellationToken);
-            
             if (_currentTransaction is not null)
             {
                 await _currentTransaction.CommitAsync(cancellationToken);
@@ -41,11 +40,8 @@ public sealed class UnitOfWork(IdentityDbContext dbContext) : IUnitOfWork
         }
         finally
         {
-            if (_currentTransaction is not null)
-            {
-                _currentTransaction.Dispose();
-                _currentTransaction = null;
-            }
+            _currentTransaction?.Dispose();
+            _currentTransaction = null;
         }
     }
 
@@ -60,11 +56,8 @@ public sealed class UnitOfWork(IdentityDbContext dbContext) : IUnitOfWork
         }
         finally
         {
-            if (_currentTransaction is not null)
-            {
-                _currentTransaction.Dispose();
-                _currentTransaction = null;
-            }
+            _currentTransaction?.Dispose();
+            _currentTransaction = null;
         }
     }
 }

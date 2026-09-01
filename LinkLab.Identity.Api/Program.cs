@@ -8,10 +8,8 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ── Infrastructure ──────────────────────────────────────────────
 builder.AddServiceDefaults();
 
-// ── Persistence ─────────────────────────────────────────────────
 var connectionString = builder.Configuration.GetConnectionString("IdentityDb")
     ?? throw new InvalidOperationException("Connection string 'IdentityDb' is missing.");
 
@@ -24,7 +22,6 @@ builder.Services.AddDbContextFactory<IdentityDbContext>(options =>
         sql.EnableRetryOnFailure(maxRetryCount: 3, maxRetryDelay: TimeSpan.FromSeconds(5), errorNumbersToAdd: null)),
     ServiceLifetime.Scoped);
 
-// ── ASP.NET Core Identity ───────────────────────────────────────
 builder.Services
     .AddIdentityCore<ApplicationUser>(options =>
     {
@@ -35,17 +32,14 @@ builder.Services
     .AddRoles<ApplicationRole>()
     .AddEntityFrameworkStores<IdentityDbContext>();
 
-// ── Options ─────────────────────────────────────────────────────
 builder.Services
     .AddOptions<LinkLab.Identity.Api.Core.Options.JwtOptions>()
     .BindConfiguration(LinkLab.Identity.Api.Core.Options.JwtOptions.SectionName)
     .ValidateDataAnnotations()
     .ValidateOnStart();
 
-// ── JWT Authentication & Permission-based Authorization ─────────
 builder.AddJwtAuthentication();
 
-// ── Application Services ────────────────────────────────────────
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<LinkLab.Identity.Api.Core.Interfaces.ITokenContext, LinkLab.Identity.Api.Infrastructure.Services.HttpContextTokenContext>();
 
@@ -67,17 +61,13 @@ builder.Services.AddScoped<LinkLab.Identity.Api.Core.Interfaces.IAuthService,
 builder.Services.AddScoped<LinkLab.Identity.Api.Core.Interfaces.IUnitOfWork,
     LinkLab.Identity.Api.Infrastructure.Data.UnitOfWork>();
 
-// ── Idempotency (SQL + Redis cache) ─────────────────────────────
 builder.AddLinkLabIdempotency<IdentityDbContext>(builder.Configuration);
 
-// ── API ─────────────────────────────────────────────────────────
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
-// ────────────────────────────────────────────────────────────────
 var app = builder.Build();
 
-// Must be first — catches all unhandled exceptions before any other middleware runs
 app.UseGlobalExceptionHandler();
 
 if (app.Environment.IsDevelopment())
